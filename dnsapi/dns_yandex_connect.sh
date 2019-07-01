@@ -3,6 +3,10 @@
 # 07 Jul 2017
 # report bugs at https://github.com/non7top/acme.sh
 
+# Improvements for Yandex Connect
+# Author: github.com/harduino
+# 01 Jul 2019
+
 # Values to export:
 # export PDD_Token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
