@@ -4,6 +4,8 @@
 # report bugs at https://github.com/non7top/acme.sh
 
 # Improvements for Yandex Connect
+# - Get it working
+# - Store PDD_Token for multiple domains
 # Author: github.com/harduino
 # 01 Jul 2019
 
@@ -13,10 +15,10 @@
 ########  Public functions #####################
 
 #Usage: dns_myapi_add   _acme-challenge.www.domain.com   "XKrxpRBosdIKFzxW_CT3KLZNf6q0HG9i01zxXp5CPBs"
-dns_yandex_add() {
+dns_yandex_connect_add() {
   fulldomain="${1}"
   txtvalue="${2}"
-  _debug "Calling: dns_yandex_add() '${fulldomain}' '${txtvalue}'"
+  _debug "Calling: dns_yandex_connect_add() '${fulldomain}' '${txtvalue}'"
   _PDD_credentials || return 1
   export _H1="PddToken: $PDD_Token"
 
@@ -29,9 +31,9 @@ dns_yandex_add() {
 }
 
 #Usage: dns_myapi_rm   _acme-challenge.www.domain.com
-dns_yandex_rm() {
+dns_yandex_connect_rm() {
   fulldomain="${1}"
-  _debug "Calling: dns_yandex_rm() '${fulldomain}'"
+  _debug "Calling: dns_yandex_connect_rm() '${fulldomain}'"
   _PDD_credentials || return 1
   export _H1="PddToken: $PDD_Token"
   record_id=$(pdd_get_record_id "${fulldomain}")
