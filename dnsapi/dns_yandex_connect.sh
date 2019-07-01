@@ -56,7 +56,7 @@ _PDD_get_domain() {
   _debug "curDomain: $curDomain"
 
   # form current subdomain
-  curSubdomain="$(echo "$fulldomain" | cut -d . -f "1-$p")"
+  curSubdomain="$(echo "$fulldomain" | rev | cut -d . -f "3-" | rev)"
   _debug "curSubdomain: $curSubdomain"
 
   return 0
