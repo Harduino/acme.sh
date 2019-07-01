@@ -51,41 +51,15 @@ dns_yandex_connect_rm() {
 ####################  Private functions below ##################################
 
 _PDD_get_domain() {
-  fulldomain="${1}"
-  __page=1
-  __last=0
-  while [ $__last -eq 0 ]; do
-    uri1="https://pddimp.yandex.ru/api2/admin/domain/domains?page=${__page}&on_page=20"
-    res1="$(_get "$uri1" | _normalizeJson)"
-    _debug2 "res1" "$res1"
-    __found="$(echo "$res1" | sed -n -e 's#.* "found": \([^,]*\),.*#\1#p')"
-    _debug "found: $__found results on page"
-    if [ "$__found" -lt 20 ]; then
-      _debug "last page: $__page"
-      __last=1
-    fi
+  # form current domain
+  curDomain="$(echo "$fulldomain" | rev | cut -d . -f "1-2" | rev)"
+  _debug "curDomain: $curDomain"
 
-    __all_domains="$__all_domains $(echo "$res1" | tr "," "\n" | grep '"name"' | cut -d: -f2 | sed -e 's@"@@g')"
+  # form current subdomain
+  curSubdomain="$(echo "$fulldomain" | cut -d . -f "1-$p")"
+  _debug "curSubdomain: $curSubdomain"
 
-    __page=$(_math $__page + 1)
-  done
-
-  k=2
-  while [ $k -lt 10 ]; do
-    __t=$(echo "$fulldomain" | cut -d . -f $k-100)
-    _debug "finding zone for domain $__t"
-    for d in $__all_domains; do
-      if [ "$d" = "$__t" ]; then
-        p=$(_math $k - 1)
-        curSubdomain="$(echo "$fulldomain" | cut -d . -f "1-$p")"
-        curDomain="$__t"
-        return 0
-      fi
-    done
-    k=$(_math $k + 1)
-  done
-  _err "No suitable domain found in your account"
-  return 1
+  return 0
 }
 
 _PDD_credentials() {
